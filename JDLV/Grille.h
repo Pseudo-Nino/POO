@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Cellule.h"
+#include <string> // Ajouté pour std::string
 
 class Grille {
 private:
@@ -17,7 +18,7 @@ public:
     void afficher();
     int compterVoisinsVivants(int x, int y);
     const std::vector<std::vector<Cellule>>& getCellules() const;
+    void enregistrerEtat(const std::string& nomFichier) const; // Ajouté
 };
 
 #endif
-

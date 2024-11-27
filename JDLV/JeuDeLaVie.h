@@ -13,7 +13,9 @@ public:
     JeuDeLaVie(int lignes, int colonnes);
     void initialiser(const std::vector<std::vector<bool>>& etats);
     void jouer(int iterations);
+    void jouerUneIteration();
+    const Grille& getGrille() const;
+    void afficher(int iterations); // Modifié pour inclure le paramètre
 };
 
 #endif
-

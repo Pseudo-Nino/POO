@@ -3,6 +3,17 @@
 #include <vector>
 #include "JeuDeLaVie.h"
 
+void afficherGrille(const Grille& grille) {
+    const auto& cellules = grille.getCellules();
+    for (const auto& ligne : cellules) {
+        for (const auto& cellule : ligne) {
+            std::cout << (cellule.vivante ? "1 " : "0 ");
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl; // Pour séparer les itérations
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Veuillez fournir le chemin du fichier d'entrée." << std::endl;
@@ -29,8 +40,12 @@ int main(int argc, char* argv[]) {
 
     JeuDeLaVie jeu(lignes, colonnes);
     jeu.initialiser(etats);
-    jeu.jouer(10); // Nombre d'itérations
+
+    // Affichage de l'état initial en mode console
+    afficherGrille(jeu.getGrille());
+
+    // Mode graphique
+    jeu.afficher(100); // Afficher 100 itérations en mode graphique
 
     return 0;
 }
-

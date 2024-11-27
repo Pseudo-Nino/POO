@@ -5,24 +5,17 @@ Affichage::Affichage(Grille& g) : grille(g) {
 }
 
 void Affichage::afficher() {
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
+    const auto& cellules = grille.getCellules();
+    window.clear();
+    for (int i = 0; i < cellules.size(); ++i) {
+        for (int j = 0; j < cellules[i].size(); ++j) {
+            sf::RectangleShape rectangle(sf::Vector2f(20, 20)); // Augmenter la taille des cellules
+            rectangle.setPosition(j * 20, i * 20);
+            rectangle.setFillColor(cellules[i][j].vivante ? sf::Color::Green : sf::Color::Black);
+            rectangle.setOutlineThickness(1); // Ajouter des bordures
+            rectangle.setOutlineColor(sf::Color::White);
+            window.draw(rectangle);
         }
-
-        window.clear();
-        const auto& cellules = grille.getCellules();
-        for (int i = 0; i < cellules.size(); ++i) {
-            for (int j = 0; j < cellules[i].size(); ++j) {
-                sf::RectangleShape rectangle(sf::Vector2f(10, 10));
-                rectangle.setPosition(j * 10, i * 10);
-                rectangle.setFillColor(cellules[i][j].vivante ? sf::Color::Green : sf::Color::Black);
-                window.draw(rectangle);
-            }
-        }
-        window.display();
     }
+    window.display();
 }
-

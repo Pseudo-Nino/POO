@@ -1,5 +1,6 @@
 #include "Grille.h"
 #include <iostream>
+#include <fstream> // Ajouté pour std::ofstream
 
 Grille::Grille(int l, int c) : lignes(l), colonnes(c) {
     cellules.resize(lignes, std::vector<Cellule>(colonnes));
@@ -48,9 +49,23 @@ void Grille::afficher() {
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl; // Pour séparer les itérations
 }
 
 const std::vector<std::vector<Cellule>>& Grille::getCellules() const {
     return cellules;
 }
 
+void Grille::enregistrerEtat(const std::string& nomFichier) const {
+    std::ofstream fichier(nomFichier);
+    if (!fichier) {
+        std::cerr << "Erreur lors de l'ouverture du fichier pour l'enregistrement." << std::endl;
+        return;
+    }
+    for (const auto& ligne : cellules) {
+        for (const auto& cellule : ligne) {
+            fichier << (cellule.vivante ? "1 " : "0 ");
+        }
+        fichier << std::endl;
+    }
+}
