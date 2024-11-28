@@ -1,6 +1,6 @@
 #include "Grille.h"
 #include <iostream>
-#include <fstream> // Ajouté pour std::ofstream
+#include <fstream>
 
 Grille::Grille(int l, int c) : lignes(l), colonnes(c) {
     cellules.resize(lignes, std::vector<Cellule>(colonnes));
@@ -9,19 +9,19 @@ Grille::Grille(int l, int c) : lignes(l), colonnes(c) {
 void Grille::initialiser(const std::vector<std::vector<bool>>& etats) {
     for (int i = 0; i < lignes; ++i) {
         for (int j = 0; j < colonnes; ++j) {
-            cellules[i][j] = Cellule(etats[i][j]);
+            cellules[i][j].definirEtat(etats[i][j]);
         }
     }
 }
 
-int Grille::compterVoisinsVivants(int x, int y) {
+int Grille::compterVoisinsVivants(int x, int y) const {
     int count = 0;
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
-            if (i == 0 && j == 0) continue; // Ignorer la cellule elle-même
-            int ni = (x + i + lignes) % lignes; // Gestion torique
-            int nj = (y + j + colonnes) % colonnes; // Gestion torique
-            if (cellules[ni][nj].vivante) count++;
+            if (i == 0 && j == 0) continue;
+            int ni = (x + i + lignes) % lignes;
+            int nj = (y + j + colonnes) % colonnes;
+            if (cellules[ni][nj].estVivante()) count++;
         }
     }
     return count;
@@ -32,24 +32,24 @@ void Grille::mettreAJour() {
     for (int i = 0; i < lignes; ++i) {
         for (int j = 0; j < colonnes; ++j) {
             int voisinsVivants = compterVoisinsVivants(i, j);
-            if (cellules[i][j].vivante) {
-                nouvellesCellules[i][j].vivante = (voisinsVivants == 2 || voisinsVivants == 3);
+            if (cellules[i][j].estVivante()) {
+                nouvellesCellules[i][j].definirEtat(voisinsVivants == 2 || voisinsVivants == 3);
             } else {
-                nouvellesCellules[i][j].vivante = (voisinsVivants == 3);
+                nouvellesCellules[i][j].definirEtat(voisinsVivants == 3);
             }
         }
     }
     cellules = nouvellesCellules;
 }
 
-void Grille::afficher() {
+void Grille::afficher() const {
     for (const auto& ligne : cellules) {
         for (const auto& cellule : ligne) {
-            std::cout << (cellule.vivante ? "1 " : "0 ");
+            std::cout << (cellule.estVivante() ? "1 " : "0 ");
         }
         std::cout << std::endl;
     }
-    std::cout << std::endl; // Pour séparer les itérations
+    std::cout << std::endl;
 }
 
 const std::vector<std::vector<Cellule>>& Grille::getCellules() const {
@@ -64,7 +64,7 @@ void Grille::enregistrerEtat(const std::string& nomFichier) const {
     }
     for (const auto& ligne : cellules) {
         for (const auto& cellule : ligne) {
-            fichier << (cellule.vivante ? "1 " : "0 ");
+            fichier << (cellule.estVivante() ? "1 " : "0 ");
         }
         fichier << std::endl;
     }

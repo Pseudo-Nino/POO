@@ -7,7 +7,7 @@ void afficherGrille(const Grille& grille) {
     const auto& cellules = grille.getCellules();
     for (const auto& ligne : cellules) {
         for (const auto& cellule : ligne) {
-            std::cout << (cellule.vivante ? "1 " : "0 ");
+            std::cout << (cellule.estVivante() ? "1 " : "0 ");
         }
         std::cout << std::endl;
     }
