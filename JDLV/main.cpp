@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     afficherGrille(jeu.getGrille());
 
     // Mode graphique
-    jeu.afficher(100); // Afficher 100 itérations en mode graphique
+    jeu.afficher(41); // Afficher 100 itérations en mode graphique
 
     return 0;
 }

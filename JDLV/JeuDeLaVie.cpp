@@ -37,6 +37,6 @@ void JeuDeLaVie::afficher(int iterations) {
 
         affichage.afficher(); // Mettre à jour l'affichage graphique
         grille.mettreAJour();
-        sf::sleep(sf::milliseconds(500)); // Pause entre les itérations pour voir les changements
+        sf::sleep(sf::milliseconds(1000)); // Pause entre les itérations pour voir les changements
     }
 }
